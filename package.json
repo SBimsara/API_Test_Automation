@@ -1,0 +1,31 @@
+{
+  "name": "ui_test_automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "npx cypress:open": "cypress open",
+    "npx cypress:run": "cypress run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "cypress-cucumber-preprocessor": {
+    "step_definitions": [
+      "cypress/support/step_definitions/"
+    ],
+    "nonGlobalStepDefinitions": false
+  },
+  "dependencies": {
+    "cypress-xpath": "^2.0.1"
+  },
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^15.0.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.1.5",
+    "@shelex/cypress-allure-plugin": "^2.34.0",
+    "cypress": "^12.0.0",
+    "esbuild": "^0.17.0",
+    "multiple-cucumber-html-reporter": "^3.0.1"
+  }
+}
