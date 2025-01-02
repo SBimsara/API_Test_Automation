@@ -16,6 +16,11 @@ Given('Admin have the following book details:', (dataTable) => {
     cy.wrap(dataTable.hashes()[0]).as('bookDetails');
 });
 
+Given('Admin has an empty paload for book details', () => {
+    //create an empty payload for book details
+    cy.wrap({}).as('bookDetails');
+});
+
 When('Admin send a POST request to the create book endpoint', function () {
     cy.get('@bookDetails').then((bookDetails) => {
         cy.request({
@@ -48,5 +53,9 @@ Then('the response should contain the created book details, including id', () =>
         // Assert that the response body includes the expected details (without `id`)
         expect(response.body).to.deep.include(expectedDetails);
     });
+});
+
+Then('the response should contain the error message {string}', (errorMessage) => {
+    expect(response.body.message).to.eq(errorMessage);
 });
 

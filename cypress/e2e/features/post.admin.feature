@@ -21,16 +21,29 @@ Feature: Admin creates books using POST API
       And the response should contain the created book details, including id
 
 
+    Scenario: Admin fails to create a book with an existing title
+      Given Admin have the following book details:
+        | title                  | author           |
+        | The Hobbit             | J.R.R. Tolkien   |
+      When Admin send a POST request to the create book endpoint
+      Then Admin should receive a 208 status code
+
+
     Scenario: Admin fails to create a book without title
       Given Admin have the following book details:
-        | id  | author |
-        | 123 |        |
+        | id  | author             |
+        | 123 | J.K. Rolling       |
       When Admin send a POST request to the create book endpoint
       Then Admin should receive a 401 status code
 
     Scenario: Admin fails to create a book without author
       Given Admin have the following book details:
-        | id  | title |
-        | 123 |       |
+        | id  | title             |
+        | 123 | Harry Potter      |
       When Admin send a POST request to the create book endpoint
       Then Admin should receive a 401 status code
+
+    Scenario: Admin fails to create a book without any fields
+      Given Admin has an empty paload for book details
+      When Admin send a POST request to the create book endpoint
+      Then Admin should receive a 400 status code
