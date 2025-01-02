@@ -24,22 +24,28 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-require('cypress-xpath');
-
-Cypress.Commands.add('login', (username, password) => { 
-    cy.visit('/web/index.php/auth/login');
-
-    if(username && password) {
-        cy.get('input[name=username]').type(username)
-        cy.get('input[name=password]').type(password)
-    }
-    else{
-        cy.fixture('users.json').then((users) => {
-            cy.get('input[name=username]').type(users.valid.username)
-            cy.get('input[name=password]').type(users.valid.password)
+Cypress.Commands.add('login', (username, password) => {
+    // If no credentials are passed, use default admin credentials from a fixture
+    if (!username || !password) {
+        cy.fixture('credentials.json').then((credentials) => {
+            username = credentials.admin.username;
+            password = credentials.admin.password;
         });
     }
-    cy.get('button[type=submit]').click();
+
+    // Perform the login request using API
+    return cy.request({
+        method: 'POST',
+        url: '/api/login', // Adjust this to your backend login endpoint
+        body: {
+            username,
+            password,
+        },
+    }).then((response) => {
+        // Verify successful login and store the token
+        expect(response.status).to.eq(200); // Ensure login is successful
+        cy.setCookie('auth_token', response.body.token); // Save auth token as a cookie
+    });
 });
 
 
