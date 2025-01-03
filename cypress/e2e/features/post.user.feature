@@ -37,8 +37,8 @@ Feature: Admin creates books using POST API
 
   Scenario: User fails to create a book with author as an empty field
     Given User have the following book details:
-      | id  | title                         |
-      | 123 | The Chronicles of Narnia      |
+      | id  | title                         | author      |
+      | 123 | The Chronicles of Narnia      |             |
     When User send a POST request to the create book endpoint
     Then User should receive a 401 status code
 
