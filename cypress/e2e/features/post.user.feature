@@ -33,12 +33,12 @@ Feature: Admin creates books using POST API
       | id    | title                | author         |
       | 119   |                      | J.K. Rowling   |
     When User send a POST request to the create book endpoint
-    Then User should receive a 401 status code
+    Then User should receive a 400 status code
 
   Scenario: User fails to create a book with author as an empty field
     Given User have the following book details:
       | id  | title                         | author      |
       | 123 | The Chronicles of Narnia      |             |
     When User send a POST request to the create book endpoint
-    Then User should receive a 401 status code
+    Then User should receive a 400 status code
 
