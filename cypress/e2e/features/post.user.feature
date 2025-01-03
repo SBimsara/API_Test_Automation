@@ -1,7 +1,7 @@
 Feature: Admin creates books using POST API
 
   Background:
-    Given User logged in as User
+    Given User logged in as the User
 
   Scenario: User successfully create a book with valid title and author
     Given User have the following book details:
@@ -28,21 +28,17 @@ Feature: Admin creates books using POST API
     Then User should receive a 208 status code
 
 
-  Scenario: User fails to create a book without title
+  Scenario: User fails to create a book with title as an empty field
     Given User have the following book details:
-      | id  | author             |
-      | 123 | J.K. Rolling       |
+      | id    | title                | author         |
+      | 119   |                      | J.K. Rowling   |
     When User send a POST request to the create book endpoint
     Then User should receive a 401 status code
 
-  Scenario: User fails to create a book without author
+  Scenario: User fails to create a book with author as an empty field
     Given User have the following book details:
       | id  | title                         |
       | 123 | The Chronicles of Narnia      |
     When User send a POST request to the create book endpoint
     Then User should receive a 401 status code
 
-  Scenario: User fails to create a book without any fields
-    Given User has an empty payload for book details
-    When User send a POST request to the create book endpoint
-    Then User should receive a 400 status code

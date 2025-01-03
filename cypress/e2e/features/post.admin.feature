@@ -1,7 +1,7 @@
 Feature: Admin creates books using POST API
 
   Background:
-    Given User logged in as admin
+    Given User logged in as the Admin
 
     Scenario: Admin successfully create a book with valid title and author
       Given Admin have the following book details:

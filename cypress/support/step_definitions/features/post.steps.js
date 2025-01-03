@@ -3,7 +3,7 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 let authHeaders; // Variable to store the authentication headers
 let response;    // Variable to store the API response
 
-Given('User logged in as {word}', (role) => {
+Given('User logged in as the {word}', (role) => {
     cy.fixture('credentials.json').then((credentials) => {
 
         let userCredentials;
