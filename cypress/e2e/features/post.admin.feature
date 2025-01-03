@@ -1,8 +1,7 @@
 Feature: Admin creates books using POST API
 
   Background:
-    Given User logged in as an admin
-
+    Given User logged in as admin
 
     Scenario: Admin successfully create a book with valid title and author
       Given Admin have the following book details:
@@ -44,6 +43,7 @@ Feature: Admin creates books using POST API
       Then Admin should receive a 401 status code
 
     Scenario: Admin fails to create a book without any fields
-      Given Admin has an empty paload for book details
+      Given Admin has an empty payload for book details
       When Admin send a POST request to the create book endpoint
       Then Admin should receive a 400 status code
+

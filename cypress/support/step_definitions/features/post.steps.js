@@ -3,39 +3,78 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 let authHeaders; // Variable to store the authentication headers
 let response;    // Variable to store the API response
 
-Given('User logged in as an admin', () => {
+Given('User logged in as {word}', (role) => {
     cy.fixture('credentials.json').then((credentials) => {
-        const encodedCredentials = btoa(`${credentials.admin.username}:${credentials.admin.password}`);
+
+        let userCredentials;
+
+        if(role.toLowerCase() === 'admin'){
+            userCredentials = credentials.admin;
+        }
+        else if(role.toLowerCase() === 'user'){
+            userCredentials = credentials.user;
+        }
+        else{
+            throw new Error(`Unsupported role: ${role}`);
+        }
+        const encodedCredentials = btoa(`${userCredentials.username}:${userCredentials.password}`);
         authHeaders = {
             Authorization: `Basic ${encodedCredentials}`, // Use Basic Authentication
         };
     });
 });
-Given('Admin have the following book details:', (dataTable) => {
-    // Store the book details in the test context
-    cy.wrap(dataTable.hashes()[0]).as('bookDetails');
+Given('{word} have the following book details:', (role, dataTable) => {
+
+    if(role.toLowerCase() === 'admin' || role.toLowerCase() === 'user'){
+        // Store the book details in the test context
+        cy.wrap(dataTable.hashes()[0]).as('bookDetails');
+    }
+    else{
+        throw new Error(`Unsupported role: ${role}`);
+    }
+
 });
 
-Given('Admin has an empty paload for book details', () => {
-    //create an empty payload for book details
-    cy.wrap({}).as('bookDetails');
+Given('{word} has an empty payload for book details', (role) => {
+
+    if(role.toLowerCase() === 'admin' || role.toLowerCase() === 'user'){
+        //create an empty payload for book details
+        cy.wrap({}).as('bookDetails');
+    }
+    else{
+        throw new Error(`Unsupported role: ${role}`);
+    }
+
 });
 
-When('Admin send a POST request to the create book endpoint', function () {
-    cy.get('@bookDetails').then((bookDetails) => {
-        cy.request({
-            method: 'POST',
-            url: '/api/books', // Replace with your actual endpoint
-            headers: authHeaders,               // Include the authentication headers
-            body: bookDetails,
-        }).then((res) => {
-            response = res; // Store the response for later assertions
+When('{word} send a POST request to the create book endpoint', function (role) {
+
+    if(role.toLowerCase() === 'admin' || role.toLowerCase() === 'user'){
+        cy.get('@bookDetails').then((bookDetails) => {
+            cy.request({
+                method: 'POST',
+                url: '/api/books', // Replace with your actual endpoint
+                headers: authHeaders,               // Include the authentication headers
+                body: bookDetails,
+            }).then((res) => {
+                response = res; // Store the response for later assertions
+            });
         });
-    });
+    }
+    else{
+        throw new Error(`Unsupported role: ${role}`);
+    }
+
 });
 
-Then('Admin should receive a {int} status code', (statusCode) => {
-    expect(response.status).to.eq(statusCode);
+Then('{word} should receive a {int} status code', (role, statusCode) => {
+    if(role.toLowerCase() === 'admin' || role.toLowerCase() === 'user'){
+        expect(response.status).to.eq(statusCode);
+    }
+    else{
+        throw new Error(`Unsupported role: ${role}`);
+    }
+
 });
 
 
