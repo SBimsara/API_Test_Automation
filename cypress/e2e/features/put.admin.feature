@@ -20,8 +20,8 @@ Feature: Admin updates books using PUT API
 
     Scenario: Admin fails to update a book with a missing author
         Given Admin has the following book details for update:
-            | id   | title            |            
-            | 1    | Non-existent     |                  
+            | id   | title                  |            
+            | 1    | Village by The Sea     |                  
         When Admin sends a PUT request to the update book endpoint
         Then Admin should receive 400 status code     
 
@@ -33,14 +33,14 @@ Feature: Admin updates books using PUT API
         Then Admin should receive 400 status code  
 
     Scenario: Admin fails to update a book with an empty title
-        Given Admin has the following book details to update:
+        Given Admin has the following book details for update:
             | id  | title | author             |
             | 1   |       | Anita Desai        |
         When Admin sends a PUT request to the update book endpoint
         Then Admin should receive 400 status code 
 
     Scenario: Admin fails to update a book with an empty author
-        Given Admin has the following book details to update:
+        Given Admin has the following book details for update:
             | id  | title                 | author |
             | 1   | Village by The Sea    |        |
         When Admin sends a PUT request to the update book endpoint
